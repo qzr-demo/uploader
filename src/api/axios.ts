@@ -12,6 +12,13 @@ import axiosRetry from 'axios-retry'
 import qs from 'qs'
 
 interface CustomOpt {
+  reductData: boolean  // 是否直接返回数据
+  reductId: string
+  contentType: 'json' | 'encode' | 'from'  // 参数传递方式
+  timeout: number // 超时时间
+}
+
+interface CustomOptPar {
   reductData?: boolean  // 是否直接返回数据
   reductId?: string
   contentType?: 'json' | 'encode' | 'from'  // 参数传递方式
@@ -36,7 +43,7 @@ enum ContentType {
  * @param customParam 自定义参数
  * @returns AxiosInstance
  */
-export function axiosFn(customParam?: CustomOpt) {
+export function axiosFn(customParam?: CustomOptPar) {
   const customOpt: CustomOpt = {
     ...defaultOpt,
     ...customParam

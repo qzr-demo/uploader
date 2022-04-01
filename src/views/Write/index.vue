@@ -3,7 +3,7 @@
  * @Description  :
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2022-04-01 15:44:21
+ * @LastEditTime : 2022-04-01 16:26:26
 -->
 
 <template>
@@ -113,7 +113,6 @@
 </template>
 
 <script lang='ts' setup>
-import { Ref } from 'vue'
 import { axiosFn } from '@/api/axios'
 import api from '@/api'
 import AXIOS from 'axios'
@@ -134,7 +133,7 @@ let totalFile = ref(0)  // 总文件数
 
 let completedChunk = ref(0) // 已上传完的分片数
 let completedHash = ref(0) // 已计算完的hash文件
-let calcHashing:Ref<string[]> = ref([]) // hash计算中的文件
+let calcHashing = ref<string[]>([]) // hash计算中的文件
 let caclHashFlag = ref(false) // 全部hash计算完毕标志
 
 let chunkQueue:any = ref([])  // hash计算完毕队列
