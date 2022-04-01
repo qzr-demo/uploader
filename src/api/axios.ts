@@ -118,7 +118,7 @@ export let axiosDefault = axiosFn()
  */
 function httpErrorStatusHandle(error:any) {
   // 处理被取消的请求
-  if (axios.isCancel(error)) return console.error('请求的重复请求：' + error.message)
+  if (axios.isCancel(error)) return console.error('已取消的请求：' + error.message)
   let message = ''
   if (error && error.response) {
     switch (error.response.status) {
