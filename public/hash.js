@@ -3,10 +3,10 @@
  * @Description  :
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2022-03-30 16:50:42
+ * @LastEditTime : 2022-04-01 17:22:41
  */
 
-(<any>self).importScripts('/node_modules/spark-md5')
+self.importScripts('/spark-md5.min.js')
 
 // self.addEventListener('message', function (e) {
 //   const { chunkArr } = e.data
@@ -37,13 +37,13 @@
 
 self.addEventListener('message', function (e) {
   const { chunkList } = e.data
-  const spark = new (<any>self).SparkMD5.ArrayBuffer()
+  const spark = new self.SparkMD5.ArrayBuffer()
   let percentage = 0
   let count = 0
   const loadNext = index => {
     const reader = new FileReader()
     reader.readAsArrayBuffer(chunkList[index].file)
-    reader.onload = (e:any) => {
+    reader.onload = (e) => {
       count++
       spark.append(e.target.result)
       if (count === chunkList.length) {
