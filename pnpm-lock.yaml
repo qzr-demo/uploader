@@ -30,6 +30,7 @@ specifiers:
   husky: ^6.0.0
   jest: ^26.6.3
   jquery: 1.12.4
+  jszip: ^3.9.1
   lint-staged: ^10.5.4
   mockjs: ^1.1.0
   pinia: 2.0.9
@@ -58,6 +59,7 @@ dependencies:
   axios-retry: r2.cnpmjs.org/axios-retry/3.2.4
   element-plus: 2.1.7_vue@3.2.31
   jquery: r2.cnpmjs.org/jquery/1.12.4
+  jszip: 3.9.1
   mockjs: r2.cnpmjs.org/mockjs/1.1.0
   pinia: r2.cnpmjs.org/pinia/2.0.9_typescript@4.6.3+vue@3.2.31
   postcss: 8.4.12
@@ -70,7 +72,7 @@ dependencies:
 devDependencies:
   '@commitlint/cli': r2.cnpmjs.org/@commitlint/cli/13.2.1
   '@commitlint/config-conventional': r2.cnpmjs.org/@commitlint/config-conventional/13.2.0
-  '@constq/eslint-config-qzr': r2.cnpmjs.org/@constq/eslint-config-qzr/0.0.3
+  '@constq/eslint-config-qzr': 0.0.3
   '@constq/qzr-utils': 1.2.3
   '@types/jest': r2.cnpmjs.org/@types/jest/26.0.24
   '@types/mockjs': 1.0.6
@@ -80,7 +82,7 @@ devDependencies:
   '@types/vue': r2.cnpmjs.org/@types/vue/2.0.0
   '@typescript-eslint/eslint-plugin': r2.cnpmjs.org/@typescript-eslint/eslint-plugin/4.33.0_0c49e12669280545a7ea3f36dba6eb0a
   '@typescript-eslint/parser': r2.cnpmjs.org/@typescript-eslint/parser/4.33.0_eslint@7.32.0+typescript@4.6.3
-  '@vitejs/plugin-vue': r2.cnpmjs.org/@vitejs/plugin-vue/1.10.2_vite@2.9.0
+  '@vitejs/plugin-vue': r2.cnpmjs.org/@vitejs/plugin-vue/1.10.2_vite@2.9.1
   '@vue/compiler-sfc': 3.2.31
   '@vue/test-utils': r2.cnpmjs.org/@vue/test-utils/2.0.0-rc.17_vue@3.2.31
   commitizen: r2.cnpmjs.org/commitizen/4.2.4
@@ -98,10 +100,10 @@ devDependencies:
   stylus: r2.cnpmjs.org/stylus/0.54.8
   ts-jest: r2.cnpmjs.org/ts-jest/26.5.6_jest@26.6.3+typescript@4.6.3
   typescript: 4.6.3
-  unplugin-auto-import: 0.5.11_vite@2.9.0
-  unplugin-vue-components: 0.17.21_vite@2.9.0+vue@3.2.31
-  vite: 2.9.0_stylus@0.54.8
-  vite-plugin-compression: r2.cnpmjs.org/vite-plugin-compression/0.4.0_vite@2.9.0
+  unplugin-auto-import: 0.5.11_vite@2.9.1
+  unplugin-vue-components: 0.17.21_vite@2.9.1+vue@3.2.31
+  vite: 2.9.1_stylus@0.54.8
+  vite-plugin-compression: r2.cnpmjs.org/vite-plugin-compression/0.4.0_vite@2.9.1
   vue-global-api: r2.cnpmjs.org/vue-global-api/0.4.1_vue@3.2.31
   vue-jest: r2.cnpmjs.org/vue-jest/5.0.0-alpha.10_2e58290fecb3255a6e0f8fdd4b2bf1f4
   vue-tsc: r2.cnpmjs.org/vue-tsc/0.0.24
@@ -393,6 +395,10 @@ packages:
     dev: true
     optional: true
 
+  /@constq/eslint-config-qzr/0.0.3:
+    resolution: {integrity: sha512-m5vCTuvbYe6I3YYJ2zSjIcbYCqt1iaFZATMXNJc2hSwPaN5ADa+yG6w9pY5/5MCDndlHz7+qfP5QFVHp/FKvig==}
+    dev: true
+
   /@constq/qzr-utils/1.2.3:
     resolution: {integrity: sha512-T3odaCY5jbvUPX770PLoJGf9TOU34PT1L8V8K1i7xPTInXhlseH+H6Kymd043YsrtNSAGvdUQVXpCgkRpSpK8A==}
     dev: true
@@ -651,7 +657,7 @@ packages:
       normalize-path: r2.cnpmjs.org/normalize-path/3.0.0
       readdirp: r2.cnpmjs.org/readdirp/3.6.0
     optionalDependencies:
-      fsevents: r2.cnpmjs.org/fsevents/2.3.2
+      fsevents: 2.3.2
     dev: true
 
   /commander/9.1.0:
@@ -680,6 +686,10 @@ packages:
       split2: r2.cnpmjs.org/split2/3.2.2
       through2: r2.cnpmjs.org/through2/4.0.2
     dev: true
+
+  /core-util-is/1.0.3:
+    resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
+    dev: false
 
   /cosmiconfig-typescript-loader/1.0.6_b34c2d00f7bffffd3f771e5188a8c9e6:
     resolution: {integrity: sha512-2nEotziYJWtNtoTjKbchj9QrdTT6DBxCvqjNKoDKARw+e2yZmTQCa07uRrykLIZuvSgp69YXLH89UHc0WhdMfQ==}
@@ -1050,6 +1060,14 @@ packages:
       universalify: r2.cnpmjs.org/universalify/2.0.0
     dev: true
 
+  /fsevents/2.3.2:
+    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /git-raw-commits/2.0.11:
     resolution: {integrity: sha512-VnctFhw+xfj8Va1xtfEqCUD2XDrbAPSJx+hSrE5K7fGdjZruW7XV+QOrN7LF/RJyvspRiD2I0asWsxFp0ya26A==}
     engines: {node: '>=10'}
@@ -1101,6 +1119,10 @@ packages:
     hasBin: true
     dev: true
 
+  /immediate/3.0.6:
+    resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
+    dev: false
+
   /import-local/3.1.0:
     resolution: {integrity: sha512-ASB07uLtnDs1o6EHjKpX34BKYDSqnFerfTOJL2HvMqF70LnxpjkzDB8J44oT9pu4AMPkQwf8jl6szgvNd2tRIg==}
     engines: {node: '>=8'}
@@ -1110,11 +1132,19 @@ packages:
       resolve-cwd: r2.cnpmjs.org/resolve-cwd/3.0.0
     dev: true
 
+  /inherits/2.0.4:
+    resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
+    dev: false
+
   /is-core-module/2.8.1:
     resolution: {integrity: sha512-SdNCUs284hr40hFTFP6l0IfZ/RSrMXF3qgoRHd3/79unUTvrFO/JoXwkGm+5J/Oe3E/b5GsnG330uUNgRpu1PA==}
     dependencies:
       has: r2.cnpmjs.org/has/1.0.3
     dev: true
+
+  /isarray/1.0.0:
+    resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
+    dev: false
 
   /istanbul-reports/3.1.4:
     resolution: {integrity: sha512-r1/DshN4KSE7xWEknZLLLLDn5CJybV3nw01VTkp6D5jzLuELlcbudfj/eSQFvrKsJuTVCGnePO7ho82Nw9zzfw==}
@@ -1129,6 +1159,21 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
     dev: true
+
+  /jszip/3.9.1:
+    resolution: {integrity: sha512-H9A60xPqJ1CuC4Ka6qxzXZeU8aNmgOeP5IFqwJbQQwtu2EUYxota3LdsiZWplF7Wgd9tkAd0mdu36nceSaPuYw==}
+    dependencies:
+      lie: 3.3.0
+      pako: 1.0.11
+      readable-stream: 2.3.7
+      set-immediate-shim: 1.0.1
+    dev: false
+
+  /lie/3.3.0:
+    resolution: {integrity: sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==}
+    dependencies:
+      immediate: 3.0.6
+    dev: false
 
   /listr2/3.14.0_enquirer@2.3.6:
     resolution: {integrity: sha512-TyWI8G99GX9GjE54cJ+RrNMcIFBfwMPxc3XTFiAYGN4s10hWROGtOg7+O6u6LE3mNkyld7RSLE6nrKBvTfcs3g==}
@@ -1213,6 +1258,19 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  /node-notifier/8.0.2:
+    resolution: {integrity: sha512-oJP/9NAdd9+x2Q+rfphB2RJCHjod70RcRLjosiPMMu5gjIfwVnOUGq2nbTjTUbmy0DJ/tFIVT30+Qe3nzl4TJg==}
+    requiresBuild: true
+    dependencies:
+      growly: r2.cnpmjs.org/growly/1.3.0
+      is-wsl: r2.cnpmjs.org/is-wsl/2.2.0
+      semver: r2.cnpmjs.org/semver/7.3.5
+      shellwords: r2.cnpmjs.org/shellwords/0.1.1
+      uuid: r2.cnpmjs.org/uuid/8.3.2
+      which: r2.cnpmjs.org/which/2.0.2
+    dev: true
+    optional: true
+
   /node-releases/2.0.2:
     resolution: {integrity: sha512-XxYDdcQ6eKqp/YjI+tb2C5WM2LgjnZrfYg4vgQt49EK268b6gYCHsBLrK2qvJo4FmCtqmKezb0WZFK4fkrZNsg==}
     dev: true
@@ -1220,6 +1278,14 @@ packages:
   /normalize-wheel-es/1.1.2:
     resolution: {integrity: sha512-scX83plWJXYH1J4+BhAuIHadROzxX0UBF3+HuZNY2Ks8BciE7tSTQ+5JhTsvzjaO0/EJdm4JBGrfObKxFf3Png==}
     dev: false
+
+  /pako/1.0.11:
+    resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
+    dev: false
+
+  /path-parse/1.0.7:
+    resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
+    dev: true
 
   /picomatch/2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
@@ -1239,6 +1305,10 @@ packages:
       picocolors: r2.cnpmjs.org/picocolors/1.0.0
       source-map-js: 1.0.2
 
+  /process-nextick-args/2.0.1:
+    resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
+    dev: false
+
   /q/1.5.1:
     resolution: {integrity: sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==}
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
@@ -1251,12 +1321,24 @@ packages:
       side-channel: r2.cnpmjs.org/side-channel/1.0.4
     dev: false
 
+  /readable-stream/2.3.7:
+    resolution: {integrity: sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==}
+    dependencies:
+      core-util-is: 1.0.3
+      inherits: 2.0.4
+      isarray: 1.0.0
+      process-nextick-args: 2.0.1
+      safe-buffer: 5.1.2
+      string_decoder: 1.1.1
+      util-deprecate: 1.0.2
+    dev: false
+
   /resolve/1.22.0:
     resolution: {integrity: sha512-Hhtrw0nLeSrFQ7phPp4OOcVjLPIeMnRlr5mcnVuMe7M/7eBn98A3hmFRLoFo3DLZkivSYwhRUJTyPyWAk56WLw==}
     hasBin: true
     dependencies:
       is-core-module: 2.8.1
-      path-parse: r2.cnpmjs.org/path-parse/1.0.7
+      path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
     dev: true
 
@@ -1278,7 +1360,7 @@ packages:
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
-      fsevents: r2.cnpmjs.org/fsevents/2.3.2
+      fsevents: 2.3.2
     dev: true
 
   /rxjs/7.5.5:
@@ -1287,6 +1369,15 @@ packages:
       tslib: r2.cnpmjs.org/tslib/2.3.1
     dev: true
 
+  /safe-buffer/5.1.2:
+    resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
+    dev: false
+
+  /set-immediate-shim/1.0.1:
+    resolution: {integrity: sha512-Li5AOqrZWCVA2n5kryzEmqai6bKSIvpz5oUJHPVj6+dsbD3X1ixtsY5tEnsaNpH3pFAHmG8eIHUrtEtohrg+UQ==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /signal-exit/3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
     dev: true
@@ -1294,6 +1385,19 @@ packages:
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
+
+  /source-map/0.6.1:
+    resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
+    engines: {node: '>=0.10.0'}
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /string_decoder/1.1.1:
+    resolution: {integrity: sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==}
+    dependencies:
+      safe-buffer: 5.1.2
+    dev: false
 
   /supports-preserve-symlinks-flag/1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
@@ -1358,7 +1462,7 @@ packages:
     hasBin: true
     dev: true
 
-  /unplugin-auto-import/0.5.11_vite@2.9.0:
+  /unplugin-auto-import/0.5.11_vite@2.9.1:
     resolution: {integrity: sha512-MJ3POLe/IysRHF4yd32FkKDoxqSRoiuIHm89ys67B8FLuz2Pvh9poeqTVe6IhJsNxwv0+GSdFfj5Dpq24lhm4g==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -1372,7 +1476,7 @@ packages:
       local-pkg: 0.4.1
       magic-string: 0.25.9
       resolve: 1.22.0
-      unplugin: 0.3.3_vite@2.9.0
+      unplugin: 0.3.3_vite@2.9.1
     transitivePeerDependencies:
       - esbuild
       - rollup
@@ -1380,7 +1484,7 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-vue-components/0.17.21_vite@2.9.0+vue@3.2.31:
+  /unplugin-vue-components/0.17.21_vite@2.9.1+vue@3.2.31:
     resolution: {integrity: sha512-jkXksUF6zkNbzHQbw1DdrsQyVoMZGESRZDIGd9x7nUP+65nHdpBCY/JmlxSjKbuTrOwfMsk6FQFa0RpRueOCKg==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -1402,7 +1506,7 @@ packages:
       magic-string: 0.25.9
       minimatch: 3.1.2
       resolve: 1.22.0
-      unplugin: 0.3.3_vite@2.9.0
+      unplugin: 0.3.3_vite@2.9.1
       vue: 3.2.31
     transitivePeerDependencies:
       - esbuild
@@ -1412,7 +1516,7 @@ packages:
       - webpack
     dev: true
 
-  /unplugin/0.3.3_vite@2.9.0:
+  /unplugin/0.3.3_vite@2.9.1:
     resolution: {integrity: sha512-WjZWpUqqcYPQ/efR00Zm2m1+J1LitwoZ4uhHV4VdZ+IpW0Nh/qnDYtVf+nLhozXdGxslMPecOshVR7NiWFl4gA==}
     peerDependencies:
       esbuild: '>=0.13'
@@ -1429,12 +1533,16 @@ packages:
       webpack:
         optional: true
     dependencies:
-      vite: 2.9.0_stylus@0.54.8
+      vite: 2.9.1_stylus@0.54.8
       webpack-virtual-modules: r2.cnpmjs.org/webpack-virtual-modules/0.4.3
     dev: true
 
-  /vite/2.9.0_stylus@0.54.8:
-    resolution: {integrity: sha512-5NAnNqzPmZzJvrswZGeTS2JHrBGIzIWJA2hBTTMYuoBVEMh0xwE0b5yyIXFxf7F07hrK4ugX2LJ7q6t7iIbd4Q==}
+  /util-deprecate/1.0.2:
+    resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+    dev: false
+
+  /vite/2.9.1_stylus@0.54.8:
+    resolution: {integrity: sha512-vSlsSdOYGcYEJfkQ/NeLXgnRv5zZfpAsdztkIrs7AZHV8RCMZQkwjo4DS5BnrYTqoWqLoUe1Cah4aVO4oNNqCQ==}
     engines: {node: '>=12.2.0'}
     hasBin: true
     peerDependencies:
@@ -1455,7 +1563,7 @@ packages:
       rollup: 2.70.1
       stylus: r2.cnpmjs.org/stylus/0.54.8
     optionalDependencies:
-      fsevents: r2.cnpmjs.org/fsevents/2.3.2
+      fsevents: 2.3.2
     dev: true
 
   /vue-demi/0.12.5_vue@3.2.31:
@@ -1872,12 +1980,6 @@ packages:
       chalk: r2.cnpmjs.org/chalk/4.1.2
     dev: true
 
-  r2.cnpmjs.org/@constq/eslint-config-qzr/0.0.3:
-    resolution: {integrity: sha512-m5vCTuvbYe6I3YYJ2zSjIcbYCqt1iaFZATMXNJc2hSwPaN5ADa+yG6w9pY5/5MCDndlHz7+qfP5QFVHp/FKvig==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/@constq/eslint-config-qzr/-/eslint-config-qzr-0.0.3.tgz}
-    name: '@constq/eslint-config-qzr'
-    version: 0.0.3
-    dev: true
-
   r2.cnpmjs.org/@cspotcode/source-map-consumer/0.8.0:
     resolution: {integrity: sha512-41qniHzTU8yAGbCp04ohlmSrZf8bkf/iJsl3V0dRGsQN/5GFfx+LbCSsCpp2gqrqjTVg/K6O8ycoV35JIwAzAg==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/@cspotcode/source-map-consumer/-/source-map-consumer-0.8.0.tgz}
     name: '@cspotcode/source-map-consumer'
@@ -2103,7 +2205,7 @@ packages:
       terminal-link: r2.cnpmjs.org/terminal-link/2.1.1
       v8-to-istanbul: r2.cnpmjs.org/v8-to-istanbul/7.1.2
     optionalDependencies:
-      node-notifier: r2.cnpmjs.org/node-notifier/8.0.2
+      node-notifier: 8.0.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2534,7 +2636,7 @@ packages:
       eslint-visitor-keys: r2.cnpmjs.org/eslint-visitor-keys/2.1.0
     dev: true
 
-  r2.cnpmjs.org/@vitejs/plugin-vue/1.10.2_vite@2.9.0:
+  r2.cnpmjs.org/@vitejs/plugin-vue/1.10.2_vite@2.9.1:
     resolution: {integrity: sha512-/QJ0Z9qfhAFtKRY+r57ziY4BSbGUTGsPRMpB/Ron3QPwBZM4OZAZHdTa4a8PafCwU5DTatXG8TMDoP8z+oDqJw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/@vitejs/plugin-vue/-/plugin-vue-1.10.2.tgz}
     id: r2.cnpmjs.org/@vitejs/plugin-vue/1.10.2
     name: '@vitejs/plugin-vue'
@@ -2543,7 +2645,7 @@ packages:
     peerDependencies:
       vite: ^2.5.10
     dependencies:
-      vite: 2.9.0_stylus@0.54.8
+      vite: 2.9.1_stylus@0.54.8
     dev: true
 
   r2.cnpmjs.org/@vue/test-utils/2.0.0-rc.17_vue@3.2.31:
@@ -3893,7 +3995,7 @@ packages:
       esutils: r2.cnpmjs.org/esutils/2.0.3
       optionator: r2.cnpmjs.org/optionator/0.8.3
     optionalDependencies:
-      source-map: r2.cnpmjs.org/source-map/0.6.1
+      source-map: 0.6.1
     dev: true
 
   r2.cnpmjs.org/eslint-config-vue-global-api/0.4.1:
@@ -4458,16 +4560,6 @@ packages:
     name: fs.realpath
     version: 1.0.0
     dev: true
-
-  r2.cnpmjs.org/fsevents/2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/fsevents/-/fsevents-2.3.2.tgz}
-    name: fsevents
-    version: 2.3.2
-    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
-    os: [darwin]
-    requiresBuild: true
-    dev: true
-    optional: true
 
   r2.cnpmjs.org/fstream/1.0.12:
     resolution: {integrity: sha512-WvJ193OHa0GHPEL+AycEJgxvBEwyfRkN1vhjca23OaPVMCaLCXTd5qAu82AjTcgP1UJmytkOKb63Ypde7raDIg==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/fstream/-/fstream-1.0.12.tgz}
@@ -5527,7 +5619,7 @@ packages:
       sane: r2.cnpmjs.org/sane/4.1.0
       walker: r2.cnpmjs.org/walker/1.0.8
     optionalDependencies:
-      fsevents: r2.cnpmjs.org/fsevents/2.3.2
+      fsevents: 2.3.2
     dev: true
 
   r2.cnpmjs.org/jest-jasmine2/26.6.3:
@@ -6422,21 +6514,6 @@ packages:
     version: 0.4.0
     dev: true
 
-  r2.cnpmjs.org/node-notifier/8.0.2:
-    resolution: {integrity: sha512-oJP/9NAdd9+x2Q+rfphB2RJCHjod70RcRLjosiPMMu5gjIfwVnOUGq2nbTjTUbmy0DJ/tFIVT30+Qe3nzl4TJg==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/node-notifier/-/node-notifier-8.0.2.tgz}
-    name: node-notifier
-    version: 8.0.2
-    requiresBuild: true
-    dependencies:
-      growly: r2.cnpmjs.org/growly/1.3.0
-      is-wsl: r2.cnpmjs.org/is-wsl/2.2.0
-      semver: r2.cnpmjs.org/semver/7.3.5
-      shellwords: r2.cnpmjs.org/shellwords/0.1.1
-      uuid: r2.cnpmjs.org/uuid/8.3.2
-      which: r2.cnpmjs.org/which/2.0.2
-    dev: true
-    optional: true
-
   r2.cnpmjs.org/normalize-package-data/2.5.0:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/normalize-package-data/-/normalize-package-data-2.5.0.tgz}
     name: normalize-package-data
@@ -6815,12 +6892,6 @@ packages:
     name: path-key
     version: 3.1.1
     engines: {node: '>=8'}
-    dev: true
-
-  r2.cnpmjs.org/path-parse/1.0.7:
-    resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/path-parse/-/path-parse-1.0.7.tgz}
-    name: path-parse
-    version: 1.0.7
     dev: true
 
   r2.cnpmjs.org/path-type/4.0.0:
@@ -8295,7 +8366,7 @@ packages:
       spdx-expression-parse: r2.cnpmjs.org/spdx-expression-parse/3.0.1
     dev: true
 
-  r2.cnpmjs.org/vite-plugin-compression/0.4.0_vite@2.9.0:
+  r2.cnpmjs.org/vite-plugin-compression/0.4.0_vite@2.9.1:
     resolution: {integrity: sha512-CGC8DfIey0k4S4o54ylwFIzT1Mjb9s7cMmlXj6DMM1MZZIeWFjPCJc6YZWjnnS28ul3r7R1nmihvYvGg/lOYsQ==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/vite-plugin-compression/-/vite-plugin-compression-0.4.0.tgz}
     id: r2.cnpmjs.org/vite-plugin-compression/0.4.0
     name: vite-plugin-compression
@@ -8306,7 +8377,7 @@ packages:
       chalk: r2.cnpmjs.org/chalk/4.1.2
       debug: 4.3.4
       fs-extra: 10.0.1
-      vite: 2.9.0_stylus@0.54.8
+      vite: 2.9.1_stylus@0.54.8
     transitivePeerDependencies:
       - supports-color
     dev: true

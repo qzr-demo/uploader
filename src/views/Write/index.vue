@@ -3,7 +3,7 @@
  * @Description  :
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2022-04-02 15:47:11
+ * @LastEditTime : 2022-04-12 17:09:20
 -->
 
 <template>
@@ -31,6 +31,8 @@
       <div>当前切片上传并发数：{{ chunkLimitAmount }}</div>
       <div>当前文件上传并发数：{{ uploadPool.length }}</div>
 
+      <div>当前压缩文件：{{ zipNowFile }}</div>
+
       <div>总大小：{{ (totalSize / 1024 / 1024).toFixed(2) }}M</div>
 
       <div>总分片数：{{ totalChunk }}</div>
@@ -53,6 +55,13 @@
           :text-inside="true"
           :stroke-width="14"
           :percentage="totalChunk ? Math.floor(completedChunk/totalChunk*100) : 0" />
+      </div>
+      <div>
+        压缩文件进度：
+        <el-progress
+          :text-inside="true"
+          :stroke-width="14"
+          :percentage="Number(zipPercent)" />
       </div>
       <div>实时速度：{{ speed }}M/s</div>
       <div>平均上传速度：{{ averageSpeed }}M/s</div>
@@ -129,13 +138,14 @@ const CHUNKSIZE = 1024 * 1024 * 5 // 分片大小
 const UPLOADLIMIT = 5 // 上传文件并发数
 const CHUNKLIMIT = 2  // 分片并发数
 const HASHLIMIT = 5 // 计算hash并发数
+const ZIPSIZE = 1024 * 1024 * 20  // 需要进行压缩的文件最大值
 
 const {
   uploadHandle, timestamp, uploadTimestamp, hashTimestamp, chunkLimitAmount,
   uploadPool, totalSize, totalChunk, completedChunk, totalFile, completedFile, failFile,
   completedHash, speed, averageSpeed, calcHashing, fileChunkList, cancalUploadHandle, checkState,
-  uploadOne, fileChangeHandle
-} = useUpload(CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT)
+  uploadOne, fileChangeHandle, zipPercent, zipNowFile
+} = useUpload(CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
 const { dragenter, dragleave, drop, dragover, dragText } = useDrag(fileChangeHandle)
 
 
