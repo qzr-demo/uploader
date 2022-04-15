@@ -3,7 +3,7 @@
  * @Description  :
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2022-04-12 17:09:20
+ * @LastEditTime : 2022-04-15 08:57:27
 -->
 
 <template>
@@ -152,21 +152,25 @@ const { dragenter, dragleave, drop, dragover, dragText } = useDrag(fileChangeHan
 
 </script>
 
-<style scoped lang='stylus'>
-.file-box
-  {$flex}
-  flex-wrap wrap
-  > div
-    flex auto
-    width 20vw
-    margin 10px
+<style scoped lang='scss'>
+.file-box {
+  @include flex;
+  flex-wrap: wrap;
+  > div {
+    flex: auto;
+    width: 20vw;
+    margin: 10px;
+  }
+}
 
-.drag-container
-  width 300px
-  height 200px
-  border 1px solid black
+.drag-container {
+  width: 300px;
+  height: 200px;
+  border: 1px solid black;
+}
 
-.upload-container
-  width 100vw
-  height 100vh
+.upload-container {
+  width: 100vw;
+  height: 100vh;
+}
 </style>

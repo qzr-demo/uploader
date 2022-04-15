@@ -1,8 +1,17 @@
 import Limit from '../script/limit'
 
-export default function ({ cancelPool, HASHLIMIT, chunkQueue, completedHash, fileChunkList, upload, uploadPool, UPLOADLIMIT }) {
+export default function ({ cancelPool, HASHLIMIT, fileChunkList, upload, UPLOADLIMIT, startTime }) {
   let calcHashing = ref<string[]>([]) // hash计算中的文件
-  let hashLimitInstance = ref()
+  let completedHash = ref(0) // 已计算完的hash文件
+  let caclHashFlag = ref(false) // 全部hash计算完毕标志
+
+  let chunkQueue: any = ref([]) // hash计算完毕队列
+  let uploadPool: any = ref([]) // hash计算完毕 上传池
+
+  let hashTimestamp: any = ref(0)
+  let hashLimitInstance = ref() // 并发实例
+
+  let hashInterval
 
   /**
    * 计算hash
@@ -28,6 +37,10 @@ export default function ({ cancelPool, HASHLIMIT, chunkQueue, completedHash, fil
   }
 
   async function calcHashHandle() {
+    hashInterval = setInterval(() => {
+      hashTimestamp.value = hashTimestamp.value + 1
+    }, 1000)
+
     // 计算hash
     hashLimitInstance.value = new Limit(HASHLIMIT, (file) => {
       return new Promise((resolve, reject) => {
@@ -41,6 +54,10 @@ export default function ({ cancelPool, HASHLIMIT, chunkQueue, completedHash, fil
     })
 
     await hashLimitInstance.value.start(fileChunkList.value.filter((item) => !item.hash))
+
+    caclHashFlag.value = true
+    hashTimestamp.value = (new Date().getTime() - startTime.value) / 1000
+    clearInterval(hashInterval)
   }
 
   // 从完成hash的文件队列 加入上传队列
@@ -61,5 +78,5 @@ export default function ({ cancelPool, HASHLIMIT, chunkQueue, completedHash, fil
     })
   }
 
-  return { calcHashing, calcHash, hashLimitInstance }
+  return { uploadPool, hashTimestamp, calcHashing, calcHash, hashLimitInstance, calcHashHandle, completedHash, caclHashFlag }
 }

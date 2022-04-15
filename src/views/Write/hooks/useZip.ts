@@ -16,7 +16,10 @@ export default function ({ ZIPSIZE }) {
       }
     }
 
-    return toRaw(fileList).filter((item) => item.useZip)
+    return {
+      useZipList: toRaw(fileList).filter((item) => item.useZip),
+      unZipList: toRaw(fileList).filter((item) => !item.useZip)
+    }
   }
 
   /**
@@ -27,12 +30,17 @@ export default function ({ ZIPSIZE }) {
    * @returns
    */
   function generateZipFile(zipName, files) {
-    const options: any = { type: 'blob', compression: 'DEFLATE' }
-    return new Promise((resolve, reject) => {
-      console.log('thissssssssss', files)
-      const work = new ZipWorker()
 
-      work.postMessage({ zipName, fileList: files, options })
+    return new Promise((resolve, reject) => {
+      const work = new ZipWorker()
+      let pathInfo:any = {}
+
+      console.log('thissssssssss', files)
+      for (const item of files) {
+        console.log(item, item.name)
+        pathInfo[item.name] = item.path
+      }
+      work.postMessage({ zipName, fileList: files, pathInfo })
 
       work.addEventListener('message', (e) => {
         const percentage = e.data.percentage

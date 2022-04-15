@@ -4,8 +4,10 @@ import AXIOS from 'axios'
 import utils from '@constq/qzr-utils'
 import Limit from '../script/limit'
 import zipWorker from '../script/zip?worker'
+
 import useHash from './useHash'
 import useZip from './useZip'
+import useChunk from './useChunk'
 
 export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE) {
   let fileList: any = ref([]) // 原始文件列表
@@ -13,17 +15,9 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
 
   let chunkLimitAmount = ref(0) // 当前切片上传并发数
 
-  let totalSize = ref(0)
-  let totalChunk = ref(0) // 总分片数
   let totalFile = ref(0) // 总文件数
 
   let completedChunk = ref(0) // 已上传完的分片数
-  let completedHash = ref(0) // 已计算完的hash文件
-  // let calcHashing = ref<string[]>([]) // hash计算中的文件
-  let caclHashFlag = ref(false) // 全部hash计算完毕标志
-
-  let chunkQueue: any = ref([]) // hash计算完毕队列
-  let uploadPool: any = ref([]) // hash计算完毕 上传池
 
   let completedFile = ref(0) // 已完毕文件数
   let failFile = ref(0) // 失败文件数
@@ -34,33 +28,29 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
 
   let timestamp: any = ref(0)
   let uploadTimestamp: any = ref(0)
-  let hashTimestamp: any = ref(0)
 
-  let startTime = 0
+  let startTime = ref(0)
   let uploadChunkStartTime = 0
   let startUploadFlag = false
 
   let timestampInterval
   let uploadChunkInterval
-  let hashInterval
 
-  let uploadLimitInstance
-  // let hashLimitInstance
+  let uploadLimitInstance = ref()
   let cancelPool: any = {}
 
   let cancalObj = {}
 
-  const { calcHashing, calcHash, hashLimitInstance } = useHash({
+  const { uploadPool, hashTimestamp, calcHashing, calcHash, hashLimitInstance, calcHashHandle, completedHash, caclHashFlag } = useHash({
     cancelPool,
     HASHLIMIT,
-    chunkQueue,
-    completedHash,
     fileChunkList,
     upload,
-    uploadPool,
-    UPLOADLIMIT
+    UPLOADLIMIT,
+    startTime
   })
   const { zipPercent, zipNowFile, filterSize, generateZipFile } = useZip({ ZIPSIZE })
+  const { createChunk, totalSize, totalChunk } = useChunk({ CHUNKSIZE })
 
   // 实时上传速度
   const speed = computed(() => {
@@ -120,71 +110,30 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
     if (type === 0) fileList.value = Array.from(e.target.files)
     if (type === 1) fileList.value = Array.from(e)
 
+    for (const item of fileList.value) {
+      if (item.path) {
+        Object.defineProperty(item, 'webkitRelativePath', {
+          value: item.path,
+          writable: true,
+        })
+      }
+      else {
+        item.path = item.webkitRelativePath
+      }
+    }
+
     if (fileList.value.length < 1) return
     totalFile.value = fileList.value.length
+    console.log('fileeeeeeeeeeee', fileList.value)
 
-    const useZipList = filterSize(fileList.value)
-    fileChunkList.value = createChunk(toRaw(fileList.value))
+    const { useZipList, unZipList } = filterSize(fileList.value)
+    // fileChunkList.value = createChunk(toRaw(fileList.value))
+    fileChunkList.value = createChunk(unZipList)
 
-    generateZipFile('test.zip', useZipList).then((zip) => {
+    generateZipFile('test.zip', toRaw(useZipList)).then((zip) => {
       const zipFile = createChunk([zip])
       fileChunkList.value.push(zipFile[0])
     })
-  }
-
-  /**
-   * 处理文件列表添加属性
-   * @param files 文件列表
-   */
-  function createChunk(files) {
-    const resultList = files
-      .filter((item) => {
-        return !item?.useZip
-      })
-      .map((item) => {
-        const { size, type, lastModifiedDate, name } = item
-        const chunks = Math.ceil(size / CHUNKSIZE)
-        // 埋点统计
-        totalChunk.value += chunks
-        totalSize.value += size
-        return {
-          path: item?.path,
-          chunkList: createChunkList(item),
-          size,
-          type,
-          lastModifiedDate,
-          name,
-          chunks, // 总分片数
-          completed: 0, // 已完成分片
-          hashPercentage: 0, // hash计算进度
-          merge: -1,
-          id: utils.core.Core.randomString(10)
-        }
-      })
-
-    console.log(resultList)
-    return resultList
-  }
-
-  /**
-   * 生成分片方法
-   * @param file 需分片的文件
-   */
-  function createChunkList(file) {
-    const chunkList: any = []
-    const { size } = file
-
-    let cur = 0
-    let index = 1
-    while (cur < size) {
-      chunkList.push({
-        file: file.slice(cur, cur + CHUNKSIZE),
-        chunk: index
-      })
-      cur += CHUNKSIZE
-      index++
-    }
-    return chunkList
   }
 
   /**
@@ -199,7 +148,7 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
       return
     }
 
-    uploadLimitInstance.cancel()
+    uploadLimitInstance.value.cancel()
     hashLimitInstance.value.cancel()
     for (const hash in cancalObj) {
       if (Object.prototype.hasOwnProperty.call(cancalObj, hash)) {
@@ -237,49 +186,12 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
    * 点击上传按钮 开始计算hash
    */
   async function uploadHandle() {
-    startTime = new Date().getTime()
+    startTime.value = new Date().getTime()
     timestampInterval = setInterval(() => {
       timestamp.value = timestamp.value + 1
     }, 1000)
 
-    hashInterval = setInterval(() => {
-      hashTimestamp.value = hashTimestamp.value + 1
-    }, 1000)
-
-    // // 计算hash
-    // hashLimitInstance = new Limit(HASHLIMIT, (file) => {
-    //   return new Promise((resolve, reject) => {
-    //     calcHash(file).then((hash) => {
-    //       chunkQueue.value.push(file)
-    //       completedHash.value++
-    //       setUpload()
-    //       resolve(hash)
-    //     })
-    //   })
-    // })
-
-    // await hashLimitInstance.start(fileChunkList.value.filter((item) => !item.hash))
-    caclHashFlag.value = true
-    hashTimestamp.value = (new Date().getTime() - startTime) / 1000
-    clearInterval(hashInterval)
-
-    // 从完成hash的文件队列 加入上传队列
-    // function setUpload() {
-    //   if (chunkQueue.value.length === 0) return
-    //   if (uploadPool.value.length >= UPLOADLIMIT) return
-
-    //   const file = chunkQueue.value.shift()
-    //   const promise = new Promise((resolve, reject) => {
-    //     upload(file).then(() => resolve(true))
-    //   })
-
-    //   uploadPool.value.push(promise)
-
-    //   promise.then(() => {
-    //     uploadPool.value.splice(uploadPool.value.indexOf(promise), 1)
-    //     setUpload()
-    //   })
-    // }
+    await calcHashHandle()
   }
 
   /**
@@ -323,7 +235,7 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
     })
 
     // 上传分片
-    uploadLimitInstance = new Limit(CHUNKLIMIT, (chunk) => {
+    uploadLimitInstance.value = new Limit(CHUNKLIMIT, (chunk) => {
       return new Promise((resolve, reject) => {
         let lastSize = 0
         let lastTime = new Date().getTime()
@@ -368,7 +280,7 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
       })
     })
 
-    await uploadLimitInstance.start(requestList)
+    await uploadLimitInstance.value.start(requestList)
 
     try {
       const mergeRes = await api.mergeChunks({
@@ -390,34 +302,11 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
     function point() {
       completedFile.value++
       if (completedFile.value === totalFile.value) {
-        timestamp.value = (Number(new Date().getTime()) - Number(startTime)) / 1000
+        timestamp.value = (Number(new Date().getTime()) - Number(startTime.value)) / 1000
         clearInterval(timestampInterval)
       }
     }
   }
-
-  /**
-   * 计算hash
-   * @param chunkList 分片数组
-   */
-  // function calcHash(file) {
-  //   const { chunkList } = file
-  //   return new Promise((resovle, reject) => {
-  //     cancelPool[file.id] = reject
-  //     const work = new Worker('/hash.js')
-
-  //     work.postMessage({ chunkList: toRaw(chunkList) })
-  //     calcHashing.value.push(file.id)
-  //     work.addEventListener('message', (e) => {
-  //       file.hashPercentage = Math.floor(e.data.percentage)
-  //       if (e.data.hash) {
-  //         file.hash = e.data.hash
-  //         calcHashing.value.splice(calcHashing.value.indexOf(file.id), 1)
-  //         resovle(e.data.hash)
-  //       }
-  //     })
-  //   })
-  // }
 
   /**
    * 检查是否已上传
@@ -432,50 +321,6 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
 
     console.log(res)
   }
-
-  // /**
-  //  * 过滤文件大小低于zip标志的文件 添加useZip标识
-  //  * @param fileList
-  //  * @returns
-  //  */
-  // function filterSize(fileList) {
-  //   for (const item of fileList) {
-  //     if (item.size < ZIPSIZE) {
-  //       item.useZip = true
-  //     }
-  //   }
-
-  //   return toRaw(fileList).filter((item) => item.useZip)
-  // }
-
-  // /**
-  //  * 启用webworker合并计算zip文件
-  //  * @param zipName
-  //  * @param files
-  //  * @param options
-  //  * @returns
-  //  */
-  // function generateZipFile(zipName, files) {
-  //   const options: any = { type: 'blob', compression: 'DEFLATE' }
-  //   return new Promise((resolve, reject) => {
-  //     console.log('thissssssssss', files)
-  //     const work = new zipWorker()
-
-  //     work.postMessage({ zipName, fileList: files, options })
-
-  //     work.addEventListener('message', (e) => {
-  //       const percentage = e.data.percentage
-  //       const nowFile = e.data.nowFile
-  //       zipNowFile.value = nowFile
-  //       zipPercent.value = percentage
-  //       if (e.data.file) {
-  //         const file = e.data.file
-  //         console.log('thisssssssssssssss', file)
-  //         resolve(file)
-  //       }
-  //     })
-  //   })
-  // }
 
   return {
     uploadHandle,
