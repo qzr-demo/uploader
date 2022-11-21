@@ -8,6 +8,7 @@ import zipWorker from '../script/zip?worker'
 import useHash from './useHash'
 import useZip from './useZip'
 import useChunk from './useChunk'
+import useRenderTree from './useRenderTree'
 
 export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE) {
   let fileList: any = ref([]) // 原始文件列表
@@ -51,6 +52,7 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
   })
   const { zipPercent, zipNowFile, filterSize, generateZipFile } = useZip({ ZIPSIZE })
   const { createChunk, totalSize, totalChunk } = useChunk({ CHUNKSIZE })
+  const { renderTree, fileTree } = useRenderTree()
 
   // 实时上传速度
   const speed = computed(() => {
@@ -129,10 +131,13 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
     const { useZipList, unZipList } = filterSize(fileList.value)
     // fileChunkList.value = createChunk(toRaw(fileList.value))
     fileChunkList.value = createChunk(unZipList)
+    renderTree(fileChunkList.value)
 
     generateZipFile('test.zip', toRaw(useZipList)).then((zip) => {
       const zipFile = createChunk([zip])
       fileChunkList.value.push(zipFile[0])
+      zipFile[0].path = '/'
+      renderTree(zipFile)
     })
   }
 
@@ -242,6 +247,7 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
         chunkLimitAmount.value++
 
         if (chunk.isUpload) resolve(true)
+        console.log('thissssssss', chunk)
 
         axios({
           url: '/api/upload',
@@ -345,6 +351,7 @@ export default function (CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
     uploadOne,
     fileChangeHandle,
     zipPercent,
-    zipNowFile
+    zipNowFile,
+    fileTree
   }
 }

@@ -3,7 +3,7 @@
  * @Description  :
  * @Autor        : Qzr(z5021996@vip.qq.com)
  * @LastEditors  : Qzr(z5021996@vip.qq.com)
- * @LastEditTime : 2022-04-15 08:57:27
+ * @LastEditTime : 2022-04-15 15:52:55
 -->
 
 <template>
@@ -74,6 +74,13 @@
       </div>
     </div>
 
+    <el-tree
+      :data="fileTree"
+      node-key="fileTree"
+      default-expand-all
+      check-on-click-node
+      :expand-on-click-node="false" />
+
     <div class="file-box">
       <el-card v-for="(item, index) of fileChunkList"
                :key="index"
@@ -138,16 +145,15 @@ const CHUNKSIZE = 1024 * 1024 * 5 // 分片大小
 const UPLOADLIMIT = 5 // 上传文件并发数
 const CHUNKLIMIT = 2  // 分片并发数
 const HASHLIMIT = 5 // 计算hash并发数
-const ZIPSIZE = 1024 * 1024 * 20  // 需要进行压缩的文件最大值
+const ZIPSIZE = 1024 * 1024 * 0  // 需要进行压缩的文件最大值
 
 const {
   uploadHandle, timestamp, uploadTimestamp, hashTimestamp, chunkLimitAmount,
   uploadPool, totalSize, totalChunk, completedChunk, totalFile, completedFile, failFile,
   completedHash, speed, averageSpeed, calcHashing, fileChunkList, cancalUploadHandle, checkState,
-  uploadOne, fileChangeHandle, zipPercent, zipNowFile
+  uploadOne, fileChangeHandle, zipPercent, zipNowFile, fileTree
 } = useUpload(CHUNKSIZE, UPLOADLIMIT, CHUNKLIMIT, HASHLIMIT, ZIPSIZE)
 const { dragenter, dragleave, drop, dragover, dragText } = useDrag(fileChangeHandle)
-
 
 
 </script>

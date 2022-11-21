@@ -7,6 +7,8 @@ declare module 'vue' {
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElProgress: typeof import('element-plus/es')['ElProgress']
+    ElTree: typeof import('element-plus/es')['ElTree']
+    ElTreeV2: typeof import('element-plus/es')['ElTreeV2']
     Icon: typeof import('./src/components/common/icon.vue')['default']
   }
 }

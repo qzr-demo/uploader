@@ -806,10 +806,10 @@ packages:
     dependencies:
       call-bind: r2.cnpmjs.org/call-bind/1.0.2
       es-to-primitive: r2.cnpmjs.org/es-to-primitive/1.2.1
-      function-bind: r2.cnpmjs.org/function-bind/1.1.1
+      function-bind: 1.1.1
       get-intrinsic: r2.cnpmjs.org/get-intrinsic/1.1.1
       get-symbol-description: r2.cnpmjs.org/get-symbol-description/1.0.0
-      has: r2.cnpmjs.org/has/1.0.3
+      has: 1.0.3
       has-symbols: 1.0.3
       internal-slot: r2.cnpmjs.org/internal-slot/1.0.3
       is-callable: r2.cnpmjs.org/is-callable/1.2.4
@@ -1130,6 +1130,9 @@ packages:
     dev: true
     optional: true
 
+  /function-bind/1.1.1:
+    resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
+
   /git-raw-commits/2.0.11:
     resolution: {integrity: sha512-VnctFhw+xfj8Va1xtfEqCUD2XDrbAPSJx+hSrE5K7fGdjZruW7XV+QOrN7LF/RJyvspRiD2I0asWsxFp0ya26A==}
     engines: {node: '>=10'}
@@ -1176,6 +1179,12 @@ packages:
     resolution: {integrity: sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==}
     engines: {node: '>= 0.4'}
 
+  /has/1.0.3:
+    resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
+    engines: {node: '>= 0.4.0'}
+    dependencies:
+      function-bind: 1.1.1
+
   /hosted-git-info/4.1.0:
     resolution: {integrity: sha512-kyCuEOWjJqZuDbRHzL8V93NzQhwIB71oFWSyzVo+KPZI+pnQPPxucdkrOZvkLRnrf5URsQM+IJ09Dw29cRALIA==}
     engines: {node: '>=10'}
@@ -1219,7 +1228,7 @@ packages:
   /is-core-module/2.8.1:
     resolution: {integrity: sha512-SdNCUs284hr40hFTFP6l0IfZ/RSrMXF3qgoRHd3/79unUTvrFO/JoXwkGm+5J/Oe3E/b5GsnG330uUNgRpu1PA==}
     dependencies:
-      has: r2.cnpmjs.org/has/1.0.3
+      has: 1.0.3
     dev: true
 
   /is-extglob/2.1.1:
@@ -1436,6 +1445,11 @@ packages:
     dependencies:
       side-channel: r2.cnpmjs.org/side-channel/1.0.4
     dev: false
+
+  /quick-lru/4.0.1:
+    resolution: {integrity: sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==}
+    engines: {node: '>=8'}
+    dev: true
 
   /readable-stream/2.3.7:
     resolution: {integrity: sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==}
@@ -3303,7 +3317,7 @@ packages:
     name: call-bind
     version: 1.0.2
     dependencies:
-      function-bind: r2.cnpmjs.org/function-bind/1.1.1
+      function-bind: 1.1.1
       get-intrinsic: r2.cnpmjs.org/get-intrinsic/1.1.1
 
   r2.cnpmjs.org/callsites/3.1.0:
@@ -3321,7 +3335,7 @@ packages:
     dependencies:
       camelcase: r2.cnpmjs.org/camelcase/5.3.1
       map-obj: r2.cnpmjs.org/map-obj/4.3.0
-      quick-lru: r2.cnpmjs.org/quick-lru/4.0.1
+      quick-lru: 4.0.1
     dev: true
 
   r2.cnpmjs.org/camelcase/5.3.1:
@@ -4648,11 +4662,6 @@ packages:
       rimraf: r2.cnpmjs.org/rimraf/2.7.1
     dev: true
 
-  r2.cnpmjs.org/function-bind/1.1.1:
-    resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/function-bind/-/function-bind-1.1.1.tgz}
-    name: function-bind
-    version: 1.1.1
-
   r2.cnpmjs.org/functional-red-black-tree/1.0.1:
     resolution: {integrity: sha512-dsKNQNdj6xA3T+QlADDA7mOSlX0qiMINjn0cgr+eGHGsbSHzTabcIogz2+p/iqP1Xs6EP/sS2SbqH+brGTbq0g==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz}
     name: functional-red-black-tree
@@ -4678,8 +4687,8 @@ packages:
     name: get-intrinsic
     version: 1.1.1
     dependencies:
-      function-bind: r2.cnpmjs.org/function-bind/1.1.1
-      has: r2.cnpmjs.org/has/1.0.3
+      function-bind: 1.1.1
+      has: 1.0.3
       has-symbols: 1.0.3
 
   r2.cnpmjs.org/get-own-enumerable-property-symbols/3.0.2:
@@ -4900,7 +4909,8 @@ packages:
     version: 1.0.3
     engines: {node: '>= 0.4.0'}
     dependencies:
-      function-bind: r2.cnpmjs.org/function-bind/1.1.1
+      function-bind: 1.1.1
+    dev: true
 
   r2.cnpmjs.org/homedir-polyfill/1.0.3:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/homedir-polyfill/-/homedir-polyfill-1.0.3.tgz}
@@ -5067,7 +5077,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       get-intrinsic: r2.cnpmjs.org/get-intrinsic/1.1.1
-      has: r2.cnpmjs.org/has/1.0.3
+      has: 1.0.3
       side-channel: r2.cnpmjs.org/side-channel/1.0.4
     dev: true
 
@@ -7078,13 +7088,6 @@ packages:
     version: 1.2.3
     dev: true
 
-  r2.cnpmjs.org/quick-lru/4.0.1:
-    resolution: {integrity: sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/quick-lru/-/quick-lru-4.0.1.tgz}
-    name: quick-lru
-    version: 4.0.1
-    engines: {node: '>=8'}
-    dev: true
-
   r2.cnpmjs.org/react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==, registry: https://r.cnpmjs.org/, tarball: https://r2.cnpmjs.org/react-is/-/react-is-17.0.2.tgz}
     name: react-is
@@ -8242,7 +8245,7 @@ packages:
     name: unbox-primitive
     version: 1.0.1
     dependencies:
-      function-bind: r2.cnpmjs.org/function-bind/1.1.1
+      function-bind: 1.1.1
       has-bigints: r2.cnpmjs.org/has-bigints/1.0.1
       has-symbols: 1.0.3
       which-boxed-primitive: r2.cnpmjs.org/which-boxed-primitive/1.0.2

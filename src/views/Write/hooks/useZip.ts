@@ -35,9 +35,7 @@ export default function ({ ZIPSIZE }) {
       const work = new ZipWorker()
       let pathInfo:any = {}
 
-      console.log('thissssssssss', files)
       for (const item of files) {
-        console.log(item, item.name)
         pathInfo[item.name] = item.path
       }
       work.postMessage({ zipName, fileList: files, pathInfo })
@@ -49,7 +47,6 @@ export default function ({ ZIPSIZE }) {
         zipPercent.value = percentage
         if (e.data.file) {
           const file = e.data.file
-          console.log('thisssssssssssssss', file)
           resolve(file)
         }
       })
